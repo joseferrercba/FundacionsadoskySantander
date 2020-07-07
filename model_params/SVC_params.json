@@ -1,4 +1,6 @@
 {
-    "clf__C": [1, 10, 100, 1000, 10000, 100000],    
-    "clf__gamma": ["scale", "auto", 0.1, 1.0, 10, 100]
+    "clf__C": [100, 1000, 10000],    
+    "clf__gamma": [0.1, 1.0, 10, 100],
+    "vect__ngram_range": [[1,1],[1,2]],
+    "vect__sublinear_tf": ["True", "False"]
 }

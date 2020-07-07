@@ -1,1 +1,1 @@
-{"clf__C": 1000, "clf__gamma": 0.1}
+{"clf__C": 100, "clf__gamma": 0.1, "vect__ngram_range": [1, 1], "vect__sublinear_tf": "True"}
