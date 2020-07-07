@@ -1,0 +1,1 @@
+{"clf__algorithm": "auto", "clf__n_jobs": -1, "clf__n_neighbors": 7, "clf__weights": "distance"}

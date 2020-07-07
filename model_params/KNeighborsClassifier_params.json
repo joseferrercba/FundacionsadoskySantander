@@ -1,0 +1,6 @@
+{
+"clf__n_neighbors": [3, 5, 7],
+"clf__weights": ["uniform", "distance"],
+"clf__algorithm": ["auto", "ball_tree", "kd_tree", "brute"],
+"clf__n_jobs": [-1]            
+}

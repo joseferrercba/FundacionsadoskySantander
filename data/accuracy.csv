@@ -1,0 +1,2 @@
+model_name,accuracy_score,balanced_accuracy_score,model_best_params
+SVC,0.6316836607809003,0.4821260956766758,"{'clf__C': 1000, 'clf__gamma': 0.1}"

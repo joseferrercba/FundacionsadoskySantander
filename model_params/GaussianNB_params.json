@@ -1,0 +1,3 @@
+{
+"clf__var_smoothing": [1e-9]
+}

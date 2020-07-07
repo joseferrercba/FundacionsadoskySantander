@@ -1,0 +1,6 @@
+{
+"clf__criterion": ["gini", "entropy"],
+"clf__class_weight": ["balanced", "balanced_subsample"],
+"clf__max_features": ["sqrt", "log2", "None"],
+"clf__n_jobs": [-1]
+}
