@@ -61,7 +61,7 @@ class ModelBuilder(object):
         tokenizer = CustomTokenizer()
         vect = self.GetVectorizer()
         tfidf_trans = TfidfTransformer(sublinear_tf=True)
-
+        print('Preprocessing data...')
         X_train = [tokenizer.listToString(tokenizer.processAll(sentence)) for sentence in X_train]
         X_test = [tokenizer.listToString(tokenizer.processAll(sentence)) for sentence in X_test]
         #X_train_vect = vect.fit_transform(X_train_tokenize)

@@ -1,1 +1,1 @@
-{"clf__C": 10000, "clf__gamma": 0.1, "vect__ngram_range": [1, 1], "vect__sublinear_tf": "True"}
+{"clf__C": 1500, "clf__class_weight": "balanced", "clf__decision_function_shape": "ovo", "clf__degree": 1, "clf__gamma": 0.1, "clf__kernel": "rbf", "vect__lowercase": "True", "vect__ngram_range": [1, 1], "vect__sublinear_tf": "True"}
