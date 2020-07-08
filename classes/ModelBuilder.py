@@ -1,8 +1,10 @@
 import nltk
 import joblib
+from functools import partial
 import io
 import json
 import os
+from .CustomTokenizer import CustomTokenizer
 from sklearn.model_selection import GridSearchCV
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, TfidfVectorizer
 from sklearn.pipeline import Pipeline
@@ -10,7 +12,7 @@ from sklearn.pipeline import Pipeline
 class ModelBuilder(object): 
     
     def __init__(self):
-        self.stopwords = nltk.corpus.stopwords.words('spanish')
+        self.stopwords = nltk.corpus.stopwords.words('spanish')        
 
     def __Print(self, text):
         print('')
@@ -19,10 +21,8 @@ class ModelBuilder(object):
         print('--------------------------------------------------------')        
 
 
-    def GetVectorizer(self):
-        #tokenizer = CustomTokenizer()
-        vect = TfidfVectorizer(stop_words=self.stopwords,                                                             
-                               tokenizer=nltk.word_tokenize)
+    def GetVectorizer(self):                
+        vect = TfidfVectorizer(stop_words=self.stopwords)
         return vect
 
     def Summary(self, model, model_name, X_train, X_test, y_train, y_test):        
@@ -57,15 +57,20 @@ class ModelBuilder(object):
         model_name = classifier.__class__.__name__
         params_grid = self.GetModelParams(model_name)
         #count_vect = CountVectorizer()        
+        tokenizer = CustomTokenizer()
         vect = self.GetVectorizer()
         tfidf_trans = TfidfTransformer(sublinear_tf=True)
+
+        X_train_tokenize = [tokenizer.listToString(tokenizer.processAll(sentence)) for sentence in X_train]
+        #X_train_vect = vect.fit_transform(X_train_tokenize)
+        #X_train_trans = tfidf_trans.fit_transform(X_train_vect)
         pipeline = Pipeline(steps=[#('vect', count_vect),
                                    ('vect', vect), 
                                    ('tfidf_transformer', tfidf_trans),                                   
                                    ('clf', classifier)])
         gridsearch = GridSearchCV(pipeline, params_grid, cv=5, n_jobs=-1)
         print('Training Model...')
-        gridsearch.fit(X_train, y_train)                
+        gridsearch.fit(X_train_tokenize, y_train)                
         optimized_model = gridsearch.best_estimator_
         print('Finished Training Model.')        
         model_best_params = gridsearch.best_params_                

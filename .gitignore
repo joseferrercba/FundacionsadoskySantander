@@ -3,3 +3,16 @@ __pycache__/CustomTokenizer.cpython-37.pyc
 __pycache__/ModelBuilder.cpython-37.pyc
 .ipynb_checkpoints/Baseline-checkpoint.ipynb
 .ipynb_checkpoints/Santander-Train Model-checkpoint.ipynb
+models/AdaBoostClassifier_model.sav
+models/DecisionTreeClassifier_model.sav
+models/KNeighborsClassifier_model.sav
+models/LinearSVC_model.sav
+models/RandomForestClassifier_model.sav
+models/SVC_model.sav
+classes/__pycache__/Accuracy.cpython-37.pyc
+classes/__pycache__/CustomTokenizer.cpython-37.pyc
+classes/__pycache__/ModelBuilder.cpython-37.pyc
+classes/__pycache__/__init__.cpython-37.pyc
+.ipynb_checkpoints/Santander-Train Pre Processing-checkpoint.ipynb
+.ipynb_checkpoints/OLD Santander-Train Stacking-checkpoint.ipynb
+Run JupyterLab(data-science).bat

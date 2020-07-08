@@ -5,7 +5,7 @@ from spellchecker import SpellChecker
 import string
 import re
 from nltk.stem import SnowballStemmer
-from pattern.es import conjugate, INFINITIVE
+#from pattern.es import conjugate, INFINITIVE
 import spacy
 
 class CustomTokenizer(object):           
@@ -17,7 +17,7 @@ class CustomTokenizer(object):
         self.punktSentenceTokenizer = PunktSentenceTokenizer()
         self.stopwords = nltk.corpus.stopwords.words('spanish')
         self.table = str.maketrans('', '', string.punctuation) 
-        self.nlp = spacy.load("es_core_news_sm")
+        self.nlp = spacy.load("es_core_news_md")
         self.otherwords = ['eramos', 'estabamos', 'estais', 'estan', 'estara', 'estaran', 'estaras', 'estare', 'estareis', 'estaria', 'estariais', 'estariamos', 'estarian', 'estarias', 'esteis', 'esten', 'estes', 'estuvieramos', 'estuviesemos', 'fueramos', 'fuesemos', 'habeis', 'habia', 'habiais', 'habiamos', 'habian', 'habias', 'habra', 'habran', 'habras', 'habre', 'habreis', 'habria', 'habriais', 'habriamos', 'habrian', 'habrias', 'hayais', 'hubieramos', 'hubiesemos', 'mas', 'mia', 'mias', 'mio', 'mios', 'seais', 'sera', 'seran', 'seras', 'sere', 'sereis', 'seria', 'seriais', 'seriamos', 'serian', 'serias', 'si', 'tambien', 'tendra', 'tendran', 'tendras', 'tendre', 'tendreis', 'tendria', 'tendriais', 'tendriamos', 'tendrian', 'tendrias', 'teneis', 'tengais', 'tenia', 'teniais', 'teniamos', 'tenian', 'tenias', 'tuvieramos', 'tuviesemos']
         self.reservedWords = ['superclub', 'pagomiscuentas', 'americanexpress', 'cer', 'chubut', 'gmail']
       
@@ -66,12 +66,12 @@ class CustomTokenizer(object):
         sentence = str(sentence).strip() if not pd.isna(sentence) else ''
         return sentence
     
-    def conjugate_verb(self, word):
-        doc = self.nlp(word)        
-        #print([(w.text, w.pos_) for w in doc])            
-        if doc[0].pos_ == 'VERB':
-            word = conjugate(word, INFINITIVE)        
-        return word
+    # def conjugate_verb(self, word):
+    #     doc = self.nlp(word)        
+    #     #print([(w.text, w.pos_) for w in doc])            
+    #     if doc[0].pos_ == 'VERB':
+    #         word = conjugate(word, INFINITIVE)        
+    #     return word
     
     def getFreqDist(self,sentence):
         freq_dist = nltk.FreqDist(sentence)     
@@ -130,12 +130,12 @@ class CustomTokenizer(object):
         words = [self.removeSpecialCharacters(w) for w in words]                      
 
         #conjugate_verb
-        words = [self.conjugate_verb(w) for w in words]     
+        #words = [self.conjugate_verb(w) for w in words]     
         
         #Remove Accents                
         words = [self.removeAccents(w) for w in words]
 
         #Stem Words
-        #words = [self.stemmer.stem(w) for w in words]            
+        words = [self.stemmer.stem(w) for w in words]            
 
         return words
