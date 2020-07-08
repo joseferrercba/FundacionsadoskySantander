@@ -4,5 +4,5 @@
     "clf__loss": ["hinge", "squared_hinge"],
     "clf__multi_class": ["ovr", "crammer_singer"],
     "clf__penalty": ["l1", "l2"],
-    "clf__dual": ["False", "True"]
+    "clf__dual": [false, true]
 }

@@ -16,3 +16,5 @@ SVC,0.5710022382491917,0.38685631725083847,{}
 LinearSVC,0.5961203680676449,0.4859814397203914,{}
 KNeighborsClassifier,0.5948768962944541,0.453749264282606,"{'clf__algorithm': 'auto', 'clf__n_jobs': -1, 'clf__n_neighbors': 3, 'clf__weights': 'distance'}"
 RandomForestClassifier,0.6881372792837602,0.5482871689673066,"{'clf__class_weight': 'balanced_subsample', 'clf__criterion': 'gini', 'clf__max_features': 'log2', 'clf__n_jobs': -1}"
+RandomForestClassifier,0.699328525242477,0.5583794983347923,"{'clf__class_weight': 'balanced_subsample', 'clf__criterion': 'gini', 'clf__max_features': 'log2', 'clf__n_estimators': 300, 'clf__n_jobs': -1}"
+RandomForestClassifier,0.7152449639393186,0.5742258919468917,"{'clf__class_weight': 'balanced_subsample', 'clf__criterion': 'gini', 'clf__max_features': 'log2', 'clf__n_estimators': 300, 'clf__n_jobs': -1}"
