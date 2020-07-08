@@ -63,6 +63,7 @@ class ModelBuilder(object):
         tfidf_trans = TfidfTransformer(sublinear_tf=True)
 
         X_train = [tokenizer.listToString(tokenizer.processAll(sentence)) for sentence in X_train]
+        X_test = [tokenizer.listToString(tokenizer.processAll(sentence)) for sentence in X_test]
         #X_train_vect = vect.fit_transform(X_train_tokenize)
         #X_train_trans = tfidf_trans.fit_transform(X_train_vect)
         pipeline = Pipeline(steps=[#('vect', count_vect),
@@ -78,5 +79,5 @@ class ModelBuilder(object):
         self.SaveBestParamsToDisk(model_name, model_best_params)
         self.Summary(optimized_model, model_name, X_train, X_test, y_train, y_test)
         self.SaveModelToDisk(optimized_model, model_name)
-        return optimized_model, model_best_params
+        return optimized_model, model_best_params, X_train, X_test, y_train, y_test
 
