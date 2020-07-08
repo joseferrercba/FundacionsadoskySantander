@@ -62,7 +62,7 @@ class ModelBuilder(object):
         vect = self.GetVectorizer()
         tfidf_trans = TfidfTransformer(sublinear_tf=True)
 
-        X_train_tokenize = [tokenizer.listToString(tokenizer.processAll(sentence)) for sentence in X_train]
+        X_train = [tokenizer.listToString(tokenizer.processAll(sentence)) for sentence in X_train]
         #X_train_vect = vect.fit_transform(X_train_tokenize)
         #X_train_trans = tfidf_trans.fit_transform(X_train_vect)
         pipeline = Pipeline(steps=[#('vect', count_vect),
@@ -71,7 +71,7 @@ class ModelBuilder(object):
                                    ('clf', classifier)])
         gridsearch = GridSearchCV(pipeline, params_grid, cv=5, n_jobs=-1)
         print('Training Model...')
-        gridsearch.fit(X_train_tokenize, y_train)                
+        gridsearch.fit(X_train, y_train)                
         optimized_model = gridsearch.best_estimator_
         print('Finished Training Model.')        
         model_best_params = gridsearch.best_params_                
