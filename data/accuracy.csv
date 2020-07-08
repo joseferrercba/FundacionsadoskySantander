@@ -10,3 +10,9 @@ SVC,0.6319323551355385,0.47182737850426293,"{'clf__C': 1500, 'clf__class_weight'
 SVC,0.6406366575478737,0.5337430457635246,"{'clf__C': 1500, 'clf__class_weight': 'balanced', 'clf__decision_function_shape': 'ovo', 'clf__degree': 1, 'clf__gamma': 0.1, 'clf__kernel': 'rbf', 'vect__lowercase': 'True', 'vect__ngram_range': [1, 1], 'vect__sublinear_tf': 'True'}"
 DecisionTreeClassifier,0.5456354140761005,0.367016281380145,"{'clf__criterion': 'gini', 'clf__max_features': 'sqrt', 'clf__splitter': 'best'}"
 AdaBoostClassifier,0.10569510072121363,0.014118268598054892,"{'clf__algorithm': 'SAMME.R', 'clf__learning_rate': 0.01, 'clf__n_estimators': 50}"
+XGBClassifier,0.6538174583436956,0.4511441184852294,{}
+LGBMClassifier,0.030340711265854265,0.003735261511312202,{}
+SVC,0.5710022382491917,0.38685631725083847,{}
+LinearSVC,0.5961203680676449,0.4859814397203914,{}
+KNeighborsClassifier,0.5948768962944541,0.453749264282606,"{'clf__algorithm': 'auto', 'clf__n_jobs': -1, 'clf__n_neighbors': 3, 'clf__weights': 'distance'}"
+RandomForestClassifier,0.6881372792837602,0.5482871689673066,"{'clf__class_weight': 'balanced_subsample', 'clf__criterion': 'gini', 'clf__max_features': 'log2', 'clf__n_jobs': -1}"
