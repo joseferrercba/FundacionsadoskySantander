@@ -22,7 +22,8 @@ class ModelBuilder(object):
 
 
     def GetVectorizer(self):                
-        vect = TfidfVectorizer(stop_words=self.stopwords)
+        vect = TfidfVectorizer(stop_words=self.stopwords, 
+                                tokenizer=nltk.word_tokenize)
         return vect
 
     def Summary(self, model, model_name, X_train, X_test, y_train, y_test):        
