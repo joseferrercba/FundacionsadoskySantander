@@ -4,10 +4,13 @@ from functools import partial
 import io
 import json
 import os
+import re
 from .CustomTokenizer import CustomTokenizer
 from sklearn.model_selection import GridSearchCV
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, TfidfVectorizer
-from sklearn.pipeline import Pipeline
+#from sklearn.pipeline import Pipeline
+from imblearn.over_sampling import ADASYN, RandomOverSampler, SMOTE
+from imblearn.pipeline import Pipeline
 
 class ModelBuilder(object): 
     
@@ -23,7 +26,10 @@ class ModelBuilder(object):
 
     def GetVectorizer(self):                
         vect = TfidfVectorizer(stop_words=self.stopwords, 
-                                tokenizer=nltk.word_tokenize)
+                                tokenizer=nltk.word_tokenize,
+                                sublinear_tf=True, 
+                                analyzer='word', 
+                                strip_accents='ascii', min_df=2)
         return vect
 
     def Summary(self, model, model_name, X_train, X_test, y_train, y_test):        
@@ -54,23 +60,28 @@ class ModelBuilder(object):
             params_grid = json.load(json_file)
         return params_grid
 
-    def GenerateTrainedModel(self, classifier, X_train, X_test, y_train, y_test):
+    def GenerateTrainedModel(self, classifier, X_train, X_test, y_train, y_test, cv=5):
         model_name = classifier.__class__.__name__
         params_grid = self.GetModelParams(model_name)
         #count_vect = CountVectorizer()        
         tokenizer = CustomTokenizer()
-        vect = self.GetVectorizer()
+        vect = self.GetVectorizer()        
         tfidf_trans = TfidfTransformer(sublinear_tf=True)
         print('Preprocessing data...')
-        X_train = [tokenizer.listToString(tokenizer.processAll(sentence)) for sentence in X_train]
-        X_test = [tokenizer.listToString(tokenizer.processAll(sentence)) for sentence in X_test]
-        #X_train_vect = vect.fit_transform(X_train_tokenize)
-        #X_train_trans = tfidf_trans.fit_transform(X_train_vect)
-        pipeline = Pipeline(steps=[#('vect', count_vect),
-                                   ('vect', vect), 
-                                   ('tfidf_transformer', tfidf_trans),                                   
-                                   ('clf', classifier)])
-        gridsearch = GridSearchCV(pipeline, params_grid, cv=5, n_jobs=-1)
+        X_train = [tokenizer.textacy_preprocess(sentence) for sentence in X_train]
+        X_test = [tokenizer.textacy_preprocess(sentence) for sentence in X_test]
+        X_train = vect.fit_transform(X_train)
+        X_test = vect.transform(X_test)
+        X_train = tfidf_trans.fit_transform(X_train)
+        X_test = tfidf_trans.transform(X_test)
+        print('Resampling data...')
+        oversample = RandomOverSampler(sampling_strategy='all')
+        X_train, y_train = oversample.fit_resample(X_train, y_train)
+        #pipeline = Pipeline(steps=[#('vect', count_vect),
+        #                           ('vect', vect),                                    
+        #                           ('tfidf_transformer', tfidf_trans),                                   
+        #                           ('clf', classifier)])
+        gridsearch = GridSearchCV(classifier, params_grid, cv=cv, n_jobs=-1)
         print('Training Model...')
         gridsearch.fit(X_train, y_train)                
         optimized_model = gridsearch.best_estimator_

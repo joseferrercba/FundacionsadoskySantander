@@ -1,3 +1,5 @@
 {
-    "python.pythonPath": "C:\\ProgramData\\Anaconda3\\envs\\data-science\\python.exe"
+    "python.pythonPath": "C:\\Users\\Jose Ferrer\\AppData\\Local\\Programs\\Python\\Python37\\python.exe",
+    //"python.dataScience.jupyterServerURI": "http://localhost:8888/?token=7a1a7a3752409ed6cd468749a86995bb329449ac5625d6c8"
+    "python.dataScience.jupyterServerURI": "local"
 }

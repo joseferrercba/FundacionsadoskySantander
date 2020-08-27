@@ -18,3 +18,19 @@ KNeighborsClassifier,0.5948768962944541,0.453749264282606,"{'clf__algorithm': 'a
 RandomForestClassifier,0.6881372792837602,0.5482871689673066,"{'clf__class_weight': 'balanced_subsample', 'clf__criterion': 'gini', 'clf__max_features': 'log2', 'clf__n_jobs': -1}"
 RandomForestClassifier,0.699328525242477,0.5583794983347923,"{'clf__class_weight': 'balanced_subsample', 'clf__criterion': 'gini', 'clf__max_features': 'log2', 'clf__n_estimators': 300, 'clf__n_jobs': -1}"
 RandomForestClassifier,0.7152449639393186,0.5742258919468917,"{'clf__class_weight': 'balanced_subsample', 'clf__criterion': 'gini', 'clf__max_features': 'log2', 'clf__n_estimators': 300, 'clf__n_jobs': -1}"
+RandomForestClassifier,0.7097736881372793,0.5582995795802739,"{'clf__class_weight': 'balanced_subsample', 'clf__criterion': 'gini', 'clf__max_features': 'log2', 'clf__n_estimators': 300, 'vect__ngram_range': [1, 1], 'vect__sublinear_tf': 'True'}"
+RandomForestClassifier,0.6841581696095499,0.5251299802896959,"{'clf__class_weight': 'balanced_subsample', 'clf__criterion': 'gini', 'clf__max_features': 'log2', 'clf__n_estimators': 300, 'vect__ngram_range': [1, 2], 'vect__sublinear_tf': 'True'}"
+RandomForestClassifier,0.11638895797065407,0.202465557445029,"{'clf__class_weight': 'balanced_subsample', 'clf__criterion': 'gini', 'clf__max_features': 'log2', 'clf__n_estimators': 500, 'vect__ngram_range': [1, 1], 'vect__sublinear_tf': 'True'}"
+SVC,0.11788112409848296,0.19567820184329482,"{'clf__C': 1000, 'clf__gamma': 0.1, 'vect__ngram_range': [1, 1], 'vect__sublinear_tf': True}"
+SVC,0.06192489430489928,0.13126330074032916,"{'clf__C': 1000, 'clf__gamma': 0.1, 'vect__ngram_range': [1, 1], 'vect__sublinear_tf': True}"
+SVC,0.646107933349913,0.5117116235353002,"{'clf__C': 1000, 'clf__gamma': 0.1, 'vect__ngram_range': [1, 1], 'vect__sublinear_tf': True}"
+BalancedRandomForestClassifier,0.6791842825167869,0.577213635423643,{}
+BalancedRandomForestClassifier,0.2136284506341706,0.3511666242785417,{}
+BalancedRandomForestClassifier,0.6883859736383984,0.5717781511503096,{}
+BalancedRandomForestClassifier,0.674459089778662,0.5659105218861552,{}
+BalancedRandomForestClassifier,0.6958468042775429,0.5815928348487825,{}
+LinearSVC,0.5110668987813977,0.511945550986995,{}
+LinearSVC,0.5448893310121861,0.5024810794414389,{}
+LinearSVC,0.5436458592389952,0.4910192950490666,{}
+SVC,0.5436458592389952,0.4910192950490666,{}
+SVC,0.621238497886098,0.48323534070662183,"{'C': 1000, 'gamma': 0.1}"

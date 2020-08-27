@@ -1,0 +1,33 @@
+"clf__class_weight": ["balanced", "None"],
+"clf__degree": [1,3,5]
+"clf__kernel": ["poly", "rbf", "sigmoid", "precomputed"],
+"clf__decision_function_shape": ["ovo", "ovr"],
+"vect__vect__lowercase": ["True", "False"],
+"vect__strip_accents": ["ascii"],
+"vect__ngram_range": ["(1,1)"],
+"vect__sublinear_tf": ["True", "False"],
+"vect__analyzer": ["word"],
+"vect__token_pattern": "[\\w']+"
+
+
+RFC
+{
+"clf__criterion": ["gini", "entropy"],
+"clf__class_weight": ["balanced", "balanced_subsample"],
+"clf__max_features": ["sqrt", "log2", "auto"],
+"clf__n_estimators": [100, 300],
+"clf__n_jobs": [-1]
+}
+
+SVC
+{
+    "clf__C": [100, 1000, 1500],    
+    "clf__gamma": ["scale", "auto", 0.01, 0.1, 1.0],
+    "clf__class_weight": ["balanced", "None"],
+    "clf__degree": [1,3,5],
+    "clf__kernel": ["poly", "rbf", "sigmoid", "linear"],
+    "clf__decision_function_shape": ["ovo", "ovr"],
+    "vect__ngram_range": [[1,1]],
+    "vect__sublinear_tf": ["True"],
+    "vect__lowercase": ["True"]
+}
