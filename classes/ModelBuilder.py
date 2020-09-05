@@ -1,16 +1,16 @@
 import nltk
-import joblib
 from functools import partial
 import io
 import json
 import os
 import re
-from .CustomTokenizer import CustomTokenizer
+from .CustomTokenizer import *
 from sklearn.model_selection import GridSearchCV
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, TfidfVectorizer
-#from sklearn.pipeline import Pipeline
-from imblearn.over_sampling import ADASYN, RandomOverSampler, SMOTE
-from imblearn.pipeline import Pipeline
+from sklearn.pipeline import Pipeline
+from imblearn.over_sampling import *
+from imblearn.pipeline import Pipeline as imbPipeline
+import mlflow
 
 class ModelBuilder(object): 
     
@@ -24,24 +24,28 @@ class ModelBuilder(object):
         print('--------------------------------------------------------')        
 
 
-    def GetVectorizer(self):                
-        vect = TfidfVectorizer(stop_words=self.stopwords, 
-                                tokenizer=nltk.word_tokenize,
-                                sublinear_tf=True, 
-                                analyzer='word', 
-                                strip_accents='ascii', min_df=2)
+    def GetVectorizer(self, vect_type='TfidfVectorizer'):    
+        min_df=1            
+        #tokenizer = custom_preprocess
+        tokenizer = nltk.word_tokenize
+        if vect_type == 'TfidfVectorizer':
+            vect = TfidfVectorizer(min_df=min_df, tokenizer=tokenizer)
+        elif vect_type == 'CountVectorizer':
+            vect = CountVectorizer(min_df=min_df, tokenizer=tokenizer)
+        mlflow.log_param('vect_stopwords', False)
+        mlflow.log_param('vect_min_df', min_df)  
+        mlflow.log_param('tokenizer', tokenizer.__name__)
         return vect
 
     def Summary(self, model, model_name, X_train, X_test, y_train, y_test):        
         self.__Print('Summary')
-        print("Training set score for " + model_name + " %f" % model.score(X_train , y_train))
-        print("Testing  set score for " + model_name + " %f" % model.score(X_test  , y_test ))
+        training_score = model.score(X_train , y_train)
+        test_score = model.score(X_test  , y_test )
+        mlflow.log_metric('training_score', training_score)
+        mlflow.log_metric('test_score', test_score)
+        print("Training set score for " + model_name + " %f" % training_score)
+        print("Testing  set score for " + model_name + " %f" % test_score)
         print('--------------------------------------------------------')        
-
-    def SaveModelToDisk(self, model, model_name):                
-        filename = ''.join(['models/', model_name, '_model.sav'])
-        self.__Print('Saving model on {}'.format(filename))
-        joblib.dump(model, filename)
 
     def SaveBestParamsToDisk(self, model_name, model_best_params):                
         print("Best Params for " + model_name + ": " + str(model_best_params))
@@ -60,35 +64,28 @@ class ModelBuilder(object):
             params_grid = json.load(json_file)
         return params_grid
 
-    def GenerateTrainedModel(self, classifier, X_train, X_test, y_train, y_test, cv=5):
+    def GenerateTrainedModel(self, classifier, X_train, X_test, y_train, y_test, cv=5, resampling = True, vect_type='TfidfVectorizer'):
         model_name = classifier.__class__.__name__
-        params_grid = self.GetModelParams(model_name)
-        #count_vect = CountVectorizer()        
-        tokenizer = CustomTokenizer()
-        vect = self.GetVectorizer()        
-        tfidf_trans = TfidfTransformer(sublinear_tf=True)
-        print('Preprocessing data...')
-        X_train = [tokenizer.textacy_preprocess(sentence) for sentence in X_train]
-        X_test = [tokenizer.textacy_preprocess(sentence) for sentence in X_test]
-        X_train = vect.fit_transform(X_train)
-        X_test = vect.transform(X_test)
-        X_train = tfidf_trans.fit_transform(X_train)
-        X_test = tfidf_trans.transform(X_test)
-        print('Resampling data...')
-        oversample = RandomOverSampler(sampling_strategy='all')
-        X_train, y_train = oversample.fit_resample(X_train, y_train)
-        #pipeline = Pipeline(steps=[#('vect', count_vect),
-        #                           ('vect', vect),                                    
-        #                           ('tfidf_transformer', tfidf_trans),                                   
-        #                           ('clf', classifier)])
-        gridsearch = GridSearchCV(classifier, params_grid, cv=cv, n_jobs=-1)
+        params_grid = self.GetModelParams(model_name)        
+        vect = self.GetVectorizer(vect_type=vect_type)                        
+        print('Preprocessing data...')        
+        if resampling == True:
+            print('Resampling data...')
+            oversample = SMOTE(random_state=42, n_jobs=-1, sampling_strategy='auto', k_neighbors=3)         
+            mlflow.log_param('resampling_class', oversample.__class__.__name__)   
+            pipeline = imbPipeline(steps=[('vect', vect),       
+                                       ('resample', oversample),                                                                
+                                       ('clf', classifier)])
+        else: 
+            pipeline = Pipeline(steps=[('vect', vect), ('clf', classifier)])        
+        mlflow.log_param('vect', vect.__class__.__name__)
+        gridsearch = GridSearchCV(pipeline, params_grid, cv=cv, n_jobs=-1, verbose=2)
         print('Training Model...')
         gridsearch.fit(X_train, y_train)                
         optimized_model = gridsearch.best_estimator_
         print('Finished Training Model.')        
         model_best_params = gridsearch.best_params_                
         self.SaveBestParamsToDisk(model_name, model_best_params)
-        self.Summary(optimized_model, model_name, X_train, X_test, y_train, y_test)
-        self.SaveModelToDisk(optimized_model, model_name)
+        self.Summary(optimized_model, model_name, X_train, X_test, y_train, y_test)        
         return optimized_model, model_best_params, X_train, X_test, y_train, y_test
 
