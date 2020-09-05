@@ -16,3 +16,5 @@ classes/__pycache__/__init__.cpython-37.pyc
 .ipynb_checkpoints/Santander-Train Pre Processing-checkpoint.ipynb
 .ipynb_checkpoints/OLD Santander-Train Stacking-checkpoint.ipynb
 Run JupyterLab(data-science).bat
+mlruns/0/*
+ds/*
