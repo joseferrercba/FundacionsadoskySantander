@@ -1,1 +1,0 @@
-{"clf__class_weight": "balanced_subsample", "clf__criterion": "gini", "clf__max_features": "log2", "clf__n_estimators": 300, "clf__n_jobs": -1}

@@ -1,5 +1,0 @@
-{
-    "clf__criterion": ["gini", "entropy"],
-    "clf__splitter": ["best", "random"],
-    "clf__max_features": ["sqrt", "log2", "None"]                
-}
