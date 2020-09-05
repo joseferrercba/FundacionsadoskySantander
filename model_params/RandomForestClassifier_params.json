@@ -1,7 +1,3 @@
 {
-"clf__criterion": ["gini"],
-"clf__class_weight": ["balanced_subsample"],
-"clf__max_features": ["log2"],
-"clf__n_estimators": [300, 500],
-"vect__ngram_range": [[1,1]]
+
 }
