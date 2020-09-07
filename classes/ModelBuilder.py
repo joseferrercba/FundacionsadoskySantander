@@ -71,8 +71,10 @@ class ModelBuilder(object):
         print('Preprocessing data...')        
         if resampling == True:
             print('Resampling data...')
-            oversample = SMOTE(random_state=42, n_jobs=-1, sampling_strategy='auto', k_neighbors=3)         
-            mlflow.log_param('resampling_class', oversample.__class__.__name__)   
+            sampling_strategy='not majority'
+            oversample = SMOTE(random_state=42, n_jobs=-1, sampling_strategy=sampling_strategy, k_neighbors=3)         
+            mlflow.log_param('resampling_class', oversample.__class__.__name__) 
+            mlflow.log_param('sampling_strategy', sampling_strategy)   
             pipeline = imbPipeline(steps=[('vect', vect),       
                                        ('resample', oversample),                                                                
                                        ('clf', classifier)])
