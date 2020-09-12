@@ -72,14 +72,14 @@ class ModelBuilder(object):
         if resampling == True:
             print('Resampling data...')
             sampling_strategy='not majority'
-            oversample = SMOTE(random_state=42, n_jobs=-1, sampling_strategy=sampling_strategy, k_neighbors=3)         
+            oversample = SMOTE(random_state=42, n_jobs=-1, sampling_strategy=sampling_strategy, k_neighbors=5)         
             mlflow.log_param('resampling_class', oversample.__class__.__name__) 
             mlflow.log_param('sampling_strategy', sampling_strategy)   
             pipeline = imbPipeline(steps=[('vect', vect),       
                                        ('resample', oversample),                                                                
-                                       ('clf', classifier)])
+                                       ('clf', classifier)], verbose=2)                                       
         else: 
-            pipeline = Pipeline(steps=[('vect', vect), ('clf', classifier)])        
+            pipeline = Pipeline(steps=[('vect', vect), ('clf', classifier)], verbose=2)        
         mlflow.log_param('vect', vect.__class__.__name__)
         gridsearch = GridSearchCV(pipeline, params_grid, cv=cv, n_jobs=-1, verbose=2)
         print('Training Model...')
@@ -91,3 +91,13 @@ class ModelBuilder(object):
         self.Summary(optimized_model, model_name, X_train, X_test, y_train, y_test)        
         return optimized_model, model_best_params, X_train, X_test, y_train, y_test
 
+    def TrainModel(self, X, y, classifier, vect_type='TfidfVectorizer'):
+        vect = self.GetVectorizer(vect_type=vect_type)
+        pipeline = Pipeline(steps=[('vect', vect), ('clf', classifier)])
+        print('Training Model With all train dataset...')
+        pipeline.fit(X, y)
+        print('Finished Training Model With all train dataset.')
+        self.__Print('Summary')
+        training_score = pipeline.score(X , y)
+        print("Training score for all data: %f" % training_score)
+        return pipeline

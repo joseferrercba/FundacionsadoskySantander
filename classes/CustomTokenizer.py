@@ -26,7 +26,8 @@ def remove_accents(word):
             'ó': 'o', 'ô': 'o', 'õ': 'o', 'ö': 'o',
             'ú': 'u', 'ü': 'u',
             'ç': 'c',
-            'π': 'pi', 'º': '', 'æ': ''                
+            'π': 'pi', 'º': '', 'æ': '',
+            'Ã©': 'e','Ã³': 'o','Ã±': 'i','Ãº': 'u','Ã': 'a'
            }
     new_word = ''.join([repl[c].lower() if c in repl else c for c in word])
     return new_word
@@ -126,11 +127,11 @@ def textacy_preprocess(sentence):
     
     return sentence
 
-def custom_preprocess(sentence, removeNumbers = True, removePunc = True, 
-                removeStopWords = True, spell_correction_reservedword=True,
-                spell_correction_reservedword_in_sentence = True,
-                removeSpecialCharacters = True, removeAccents = True, stem = True, 
-                conjugate_verbs = True):
+def custom_preprocess(sentence, removeNumbers = False, removePunc = False, 
+                removeStopWords = True, spell_correction_reservedword=False,
+                spell_correction_reservedword_in_sentence = False,
+                removeSpecialCharacters = True, removeAccents = True, stem = False, 
+                conjugate_verbs = False):
     words = []
     if spell_correction_reservedword_in_sentence == True:
         #spell_correction_reserved_word_in_sentence
