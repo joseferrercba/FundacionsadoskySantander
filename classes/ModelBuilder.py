@@ -26,8 +26,8 @@ class ModelBuilder(object):
 
     def GetVectorizer(self, vect_type='TfidfVectorizer'):    
         min_df=1            
-        #tokenizer = custom_preprocess
-        tokenizer = nltk.word_tokenize
+        tokenizer = custom_preprocess
+        #tokenizer = nltk.word_tokenize
         if vect_type == 'TfidfVectorizer':
             vect = TfidfVectorizer(min_df=min_df, tokenizer=tokenizer)
         elif vect_type == 'CountVectorizer':
@@ -72,7 +72,7 @@ class ModelBuilder(object):
         if resampling == True:
             print('Resampling data...')
             sampling_strategy='not majority'
-            oversample = SMOTE(random_state=42, n_jobs=-1, sampling_strategy=sampling_strategy, k_neighbors=5)         
+            oversample = SMOTE(random_state=42, n_jobs=-1, sampling_strategy=sampling_strategy, k_neighbors=3)         
             mlflow.log_param('resampling_class', oversample.__class__.__name__) 
             mlflow.log_param('sampling_strategy', sampling_strategy)   
             pipeline = imbPipeline(steps=[('vect', vect),       
@@ -80,8 +80,8 @@ class ModelBuilder(object):
                                        ('clf', classifier)], verbose=2)                                       
         else: 
             pipeline = Pipeline(steps=[('vect', vect), ('clf', classifier)], verbose=2)        
-        mlflow.log_param('vect', vect.__class__.__name__)
-        gridsearch = GridSearchCV(pipeline, params_grid, cv=cv, n_jobs=-1, verbose=2)
+        mlflow.log_param('vect', vect.__class__.__name__)        
+        gridsearch = GridSearchCV(pipeline, params_grid, cv=cv, n_jobs=-1, verbose=2, scoring='balanced_accuracy', refit='balanced_accuracy')
         print('Training Model...')
         gridsearch.fit(X_train, y_train)                
         optimized_model = gridsearch.best_estimator_

@@ -111,7 +111,7 @@ def textacy_preprocess(sentence):
     """Preprocess text."""
     sentence = preprocessing.normalize_hyphenated_words(sentence)
     sentence = preprocessing.normalize_quotation_marks(sentence)
-    sentence = preprocessing.normalize_repeating_chars(sentence)
+    #sentence = preprocessing.normalize_repeating_chars(sentence)
     sentence = preprocessing.normalize_unicode(sentence)
     sentence = preprocessing.normalize_whitespace(sentence)
     sentence = preprocessing.remove_accents(sentence)
@@ -127,10 +127,10 @@ def textacy_preprocess(sentence):
     
     return sentence
 
-def custom_preprocess(sentence, removeNumbers = False, removePunc = False, 
-                removeStopWords = True, spell_correction_reservedword=False,
-                spell_correction_reservedword_in_sentence = False,
-                removeSpecialCharacters = True, removeAccents = True, stem = False, 
+def custom_preprocess(sentence, removeNumbers = True, removePunc = True, 
+                removeStopWords = False, spell_correction_reservedword=True,
+                spell_correction_reservedword_in_sentence = True,
+                removeSpecialCharacters = True, removeAccents = True, stem = True, 
                 conjugate_verbs = False):
     words = []
     if spell_correction_reservedword_in_sentence == True:
@@ -155,7 +155,8 @@ def custom_preprocess(sentence, removeNumbers = False, removePunc = False,
     
     if removeSpecialCharacters == True:
         #Remove Special Characters              
-        words = [remove_special_characters(w) for w in words]                      
+        words = [remove_special_characters(w) for w in words]      
+                        
     if conjugate_verbs == True:
         #conjugate_verb
         words = [conjugate_verb(w) for w in words]     
