@@ -1,3 +1,9 @@
 {
-     
+    "clf__C": [1], 
+    "clf__class_weight": ["balanced"], 
+    "clf__dual": [false], 
+    "clf__loss": ["squared_hinge"], 
+    "clf__multi_class": ["ovr"], 
+    "clf__penalty": ["l2"]
 }
+     
