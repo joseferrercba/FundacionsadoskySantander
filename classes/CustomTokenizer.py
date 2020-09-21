@@ -17,7 +17,7 @@ stopwords = nltk.corpus.stopwords.words('spanish')
 table = str.maketrans('', '', string.punctuation) 
 nlp = spacy.load("es_core_news_md")
 otherwords = ['eramos', 'estabamos', 'estais', 'estan', 'estara', 'estaran', 'estaras', 'estare', 'estareis', 'estaria', 'estariais', 'estariamos', 'estarian', 'estarias', 'esteis', 'esten', 'estes', 'estuvieramos', 'estuviesemos', 'fueramos', 'fuesemos', 'habeis', 'habia', 'habiais', 'habiamos', 'habian', 'habias', 'habra', 'habran', 'habras', 'habre', 'habreis', 'habria', 'habriais', 'habriamos', 'habrian', 'habrias', 'hayais', 'hubieramos', 'hubiesemos', 'mas', 'mia', 'mias', 'mio', 'mios', 'seais', 'sera', 'seran', 'seras', 'sere', 'sereis', 'seria', 'seriais', 'seriamos', 'serian', 'serias', 'si', 'tambien', 'tendra', 'tendran', 'tendras', 'tendre', 'tendreis', 'tendria', 'tendriais', 'tendriamos', 'tendrian', 'tendrias', 'teneis', 'tengais', 'tenia', 'teniais', 'teniamos', 'tenian', 'tenias', 'tuvieramos', 'tuviesemos']
-reservedWords = ['superclub', 'pagomiscuentas', 'americanexpress', 'cer', 'chubut', 'gmail', 'americanairlines']
+reservedWords = ['superclub', 'pagomiscuentas', 'americanexpress', 'cer', 'chubut', 'gmail', 'americanairlines', 'cbu']
         
 def remove_accents(word):        
     repl = {'à': 'a', 'á': 'a', 'â': 'a', 'ã': 'a', 'ä': 'a', 'å': 'a',
@@ -65,6 +65,10 @@ def conjugate_verb(word):
         word = conjugate(word, INFINITIVE)        
     return word
 
+def conjugate_verb_in_sentence(sentence):     
+    words = [conjugate_verb(w) for w in sentence]    
+    return words
+
 def getFreqDist(sentence):
     freq_dist = nltk.FreqDist(sentence)     
     freq_df = pd.DataFrame(list(freq_dist.items()), columns = ["Word","Frequency"])
@@ -105,6 +109,31 @@ def spell_correction_reserved_word_in_sentence(sentence):
         sentence = sentence.replace('toquen', 'token')
     if ('american airlines' in sentence) == True:
         sentence = sentence.replace('american airlines', 'americanairlines')
+    if ('infinity platimun' in sentence) == True:
+        sentence = sentence.replace('infinity platimun', 'infinityplatimun')
+    if ('platimun' in sentence) == True:
+        sentence = sentence.replace('platimun', 'infinityplatimun')
+    if ('black' in sentence) == True:
+        sentence = sentence.replace('black', 'tarjetablack')
+    if ('tarjeta black' in sentence) == True:
+        sentence = sentence.replace('tarjeta black', 'tarjetablack')
+    if ('plazo fijo' in sentence) == True:
+        sentence = sentence.replace('plazo fijo', 'plazofijo')
+    if ('clave' in sentence) == True:
+        sentence = sentence.replace('clave', 'clavebanco')
+    if ('adherir servicios' in sentence) == True:
+        sentence = sentence.replace('adherir servicios', 'adherirservicios')
+    if ('debitar' in sentence) == True:
+        sentence = sentence.replace('debitar', 'debitoautomatico')
+    if ('debito' in sentence) == True:
+        sentence = sentence.replace('debito', 'debitoautomatico')
+    if ('debito automatico' in sentence) == True:
+        sentence = sentence.replace('debito automatico', 'debitoautomatico')
+    if ('debitar automatico' in sentence) == True:
+        sentence = sentence.replace('debitar automatico', 'debitoautomatico')
+    if ('home banking' in sentence) == True:
+        sentence = sentence.replace('home banking', 'homebanking')
+        
     return sentence
 
 def textacy_preprocess(sentence):
@@ -128,7 +157,7 @@ def textacy_preprocess(sentence):
     return sentence
 
 def custom_preprocess(sentence, removeNumbers = True, removePunc = True, 
-                removeStopWords = False, spell_correction_reservedword=True,
+                removeStopWords = True, spell_correction_reservedword=True,
                 spell_correction_reservedword_in_sentence = True,
                 removeSpecialCharacters = True, removeAccents = True, stem = True, 
                 conjugate_verbs = False):

@@ -1,4 +1,5 @@
-from sklearn.metrics import confusion_matrix, accuracy_score, f1_score, classification_report, balanced_accuracy_score
+from sklearn.metrics import confusion_matrix, accuracy_score, f1_score, classification_report, balanced_accuracy_score, confusion_matrix, plot_confusion_matrix
+from matplotlib import pyplot as plt
 class Accuracy(object):  
 
     @staticmethod
@@ -29,5 +30,11 @@ class Accuracy(object):
         print('-- Summary --')
         print('--------------------------------------------------------')
         print(report)
+        return report
+
+    @staticmethod
+    def get_confusion_matrix(classifier, y_test_labels, pred_labels, class_names):
+        report = plot_confusion_matrix(classifier, y_test_labels, pred_labels, display_labels=class_names, cmap=plt.cm.Blues)        
+        print(report.confusion_matrix)
         return report
         
