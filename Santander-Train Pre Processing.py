@@ -112,8 +112,8 @@ plt.axis("off")
 translator = Translator(service_urls=['translate.google.com', 'translate.google.co.kr'])
 sentences = df_train.Pregunta.values.tolist()
 questions = []
-translations = translator.translate(text=sentences, src='es', dest='en')    
-for translation in tqdm.tqdm(translations, ascii=True):
+for sentence in tqdm.tqdm(sentences, ascii=True):
+    translation = translator.translate(text=sentence, src='es', dest='en')    
     questions.append(translation.text)
 df_train['Pregunta_en'] = questions
 
