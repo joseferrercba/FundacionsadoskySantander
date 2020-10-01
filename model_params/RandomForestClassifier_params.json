@@ -1,3 +1,5 @@
-{
-
+{    
+    "clf__criterion": ["gini","entropy"],
+    "clf__n_estimators": [100, 300],
+    "clf__class_weight": ["balanced", "balanced_subsample"]
 }

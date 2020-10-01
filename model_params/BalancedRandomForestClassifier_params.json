@@ -1,1 +1,6 @@
-{}
+{
+    "clf__sampling_strategy": ["not minority", "majority"],
+    "clf__criterion": ["gini","entropy"],
+    "clf__n_estimators": [100, 300],
+    "clf__class_weight": ["balanced"]
+}
