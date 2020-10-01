@@ -1,4 +1,4 @@
 {
     "python.pythonPath": "C:\\ProgramData\\Anaconda3\\envs\\env-fsadosky\\python.exe",
-    "python.languageServer": "Microsoft"
+    "python.languageServer": "Pylance"
 }
