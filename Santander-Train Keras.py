@@ -40,7 +40,7 @@ print('sentence: {}'.format(df_train['Pregunta'][:1].values))
 print('label: {}'.format(df_train['Intencion'][:1].values))
 
 # The maximum number of words to be used. (most frequent)
-MAX_NB_WORDS = 50000
+MAX_NB_WORDS = 500
 # Max number of words in each complaint.
 MAX_SEQUENCE_LENGTH = 250
 # This is fixed.
