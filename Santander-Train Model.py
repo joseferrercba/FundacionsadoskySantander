@@ -62,7 +62,7 @@ def build_model(X, y, model, df_test):
             mlflow.log_param('Classifier', model_name)    
             mlflow.log_param('resampling', APPLY_RESAMPLE)         
             mlflow.log_param('vect', VECTORIZER_TYPE.name)
-            mlflow.log_param('tokenizer', ('None' if (TOKENIZER_TYPE == None) else TOKENIZER_TYPE.name))    
+            mlflow.log_param('tokenizer', ('None' if (TOKENIZER_TYPE == None) else TOKENIZER_TYPE))    
             mlflow.log_param('resampling_class', RESAMPLER_TYPE.name) 
             mlflow.log_param('sampling_strategy', SAMPLING_STRATEGY)   
             mlflow.log_param('prep_column', COLUMNA_PREGUNTAS)   
