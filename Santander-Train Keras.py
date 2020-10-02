@@ -86,8 +86,8 @@ plt.legend()
 plt.show()
 
 plt.title('Accuracy')
-plt.plot(history.history['acc'], label='train')
-plt.plot(history.history['val_acc'], label='test')
+plt.plot(history.history['accuracy'], label='train')
+plt.plot(history.history['val_accuracy'], label='test')
 plt.legend()
 plt.show()
 
