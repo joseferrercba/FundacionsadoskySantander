@@ -91,7 +91,7 @@ plt.plot(history.history['val_acc'], label='test')
 plt.legend()
 plt.show()
 
-labels = df_train.Intencion.value_counts()
+labels = df_train.Intencion.unique()
 print('Save predictions of test to CSV...')
 seq = tokenizer.texts_to_sequences(df_test['Pregunta'].values)
 padded = pad_sequences(seq, maxlen=MAX_SEQUENCE_LENGTH)
