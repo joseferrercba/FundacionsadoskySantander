@@ -10,7 +10,6 @@ from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split, KFold, cross_val_score
 from sklearn.metrics import accuracy_score, balanced_accuracy_score, confusion_matrix
 from sklearn.preprocessing import LabelEncoder
-import tensorflow_addons as tfa
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.models import Sequential
@@ -73,10 +72,8 @@ print(model.summary())
 
 epochs = 5
 batch_size = 64
-tqdm_callback = tfa.callbacks.TQDMProgressBar()
 
-history = model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size,validation_split=0.1,callbacks=[EarlyStopping(monitor='val_loss', patience=3, min_delta=0.0001),
-                                                                                                            tqdm_callback])
+history = model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size,validation_split=0.1,callbacks=[EarlyStopping(monitor='val_loss', patience=3, min_delta=0.0001)])
 
 accr = model.evaluate(X_test,y_test)
 print('Test set\n  Loss: {:0.3f}\n  Accuracy: {:0.3f}'.format(accr[0],accr[1]))
@@ -93,3 +90,12 @@ plt.plot(history.history['acc'], label='train')
 plt.plot(history.history['val_acc'], label='test')
 plt.legend()
 plt.show()
+
+labels = df_train.Intencion.value_counts()
+print('Save predictions of test to CSV...')
+seq = tokenizer.texts_to_sequences(df_test['Pregunta'].values)
+padded = pad_sequences(seq, maxlen=MAX_SEQUENCE_LENGTH)
+pred = model.predict(padded)
+df_test['Intencion'] = labels[np.argmax(pred)]
+SUBMIT_FILE = 'data/submit_{}.csv'.format('keras')
+df_test.to_csv(SUBMIT_FILE, mode='w', header=False, columns=['id','Intencion'], index=False, sep=',')      
