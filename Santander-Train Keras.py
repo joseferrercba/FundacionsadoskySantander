@@ -97,5 +97,6 @@ seq = tokenizer.texts_to_sequences(df_test['Pregunta'].values)
 padded = pad_sequences(seq, maxlen=MAX_SEQUENCE_LENGTH)
 pred = model.predict(padded)
 df_test['Intencion'] = labels[np.argmax(pred)]
+
 SUBMIT_FILE = 'data/submit_{}.csv'.format('keras')
 df_test.to_csv(SUBMIT_FILE, mode='w', header=False, columns=['id','Intencion'], index=False, sep=',')      
