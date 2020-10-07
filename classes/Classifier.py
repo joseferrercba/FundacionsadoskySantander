@@ -1,4 +1,3 @@
-from tensorflow.python.keras.wrappers.scikit_learn import KerasClassifier
 import xgboost as xgb
 import lightgbm as lgb
 from sklearn.tree import DecisionTreeClassifier
@@ -7,10 +6,8 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB, MultinomialNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, StackingClassifier
+from sklearn.multiclass import OneVsRestClassifier
 from imblearn.ensemble import BalancedRandomForestClassifier
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Input, Embedding, Dropout, Conv1D, GlobalMaxPooling1D, Bidirectional, LSTM
 from classes.Constans import *
 
 class Classifier(object):
@@ -21,22 +18,6 @@ class Classifier(object):
         self.n_jobs = n_jobs
         self.random_state = random_state
         self.verbose = verbose
-
-    def create_keras_model(self):
-        vocab_size = 1000 
-        embedding_dim = 64
-        model = Sequential()
-        # model.add(Embedding(vocab_size, embedding_dim))
-        # model.add(Dropout(0.5))
-        # model.add(Bidirectional(LSTM(embedding_dim)))
-        model = Sequential()
-        model.add(Dense(10, input_dim=1, activation='relu'))
-        model.add(Dense(352, activation='softmax'))
-        opt = Adam(lr=0.001, decay=1e-6)
-        model.compile(loss='categorical_crossentropy',
-                    optimizer=opt,
-                    metrics=['accuracy'])
-        return model
 
     def get_classifier_list(self):
         classifier_list = []
@@ -51,8 +32,13 @@ class Classifier(object):
         #classifier_list.append(KNeighborsClassifier(n_jobs=self.n_jobs)) 
         #classifier_list.append(lgb.LGBMClassifier()) 
         #classifier_list.append(AdaBoostClassifier())
-        #classifier_list.append(DecisionTreeClassifier()) 
-        classifier_list.append(KerasClassifier(build_fn=self.create_keras_model))
+        #classifier_list.append(DecisionTreeClassifier())         
+        #classifier_list.append(OneVsRestClassifier(MultinomialNB(fit_prior=True, class_prior=None)))
+        classifier_list.append(OneVsRestClassifier(LinearSVC(verbose=2, random_state=self.random_state, C=1, class_weight="balanced", dual= False, 
+                                                            loss="squared_hinge", multi_class="ovr", penalty="l2")))
+        #classifier_list.append(OneVsRestClassifier(LogisticRegression(C=1, class_weight=CLASS_WEIGHT, solver='liblinear',
+        #                                        dual=False, multi_class='ovr', penalty='l2', 
+        #                                        n_jobs=self.n_jobs, random_state=self.random_state, max_iter=300)))
         return classifier_list
 
     def get_stacking(self):        
