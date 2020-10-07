@@ -13,3 +13,4 @@ Run JupyterLab(data-science).bat
 mlruns/0/*
 ds/*
 classes/__pycache__/*
+data/model.h5
