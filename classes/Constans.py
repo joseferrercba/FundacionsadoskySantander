@@ -4,7 +4,7 @@ from classes.Resample import ResamplerEnum
 #--------------------------------------------------#
 ###                  PARAMETERS                  ###
 #--------------------------------------------------#
-APPLY_RESAMPLE = False
+APPLY_RESAMPLE = True
 VECTORIZER_TYPE = VectEnum.TfidfVectorizer
 RESAMPLER_TYPE = ResamplerEnum.SMOTE
 RANDOM_STATE = 42
@@ -21,6 +21,14 @@ CV = 5
 COLUMNA_PREGUNTAS = 'Pregunta' 
 VERBOSE = 0
 CLASS_WEIGHT = 'balanced'
+EPOCHS = 50
+BATCH_SIZE = 64
+# The maximum number of words to be used. (most frequent)
+MAX_NB_WORDS = 50000
+# Max number of words in each complaint.
+MAX_SEQUENCE_LENGTH = 100
+# This is fixed.
+EMBEDDING_DIM = 100
 # Choose between following columns: 
 #-----------------------------------------
 # Preguntas_custom_preprocess_no_stopwords
